@@ -70,6 +70,11 @@
 	
 	
 </div>	
+<div class="x_panel modal-content">
+	<div class="x-title">
+		<h2>Conduta Conjunta, após avaliação compartilhada:</h2>
+	</div>
+</div>	
 
 @endsection
 

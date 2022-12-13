@@ -13,7 +13,7 @@ class SolicitacaoController extends Controller
     public function index ()
     {
         $solicitacao = Form::with('categorias')->get();
-        // dd($solicitacao);
+        // dd($solicitacao)->all();
         return view('solicitacao.index', compact('solicitacao'));
     }
 
@@ -80,7 +80,11 @@ class SolicitacaoController extends Controller
     public function show($id)
     {
         $solicitacao = Form::with('categorias')->find($id);
+        
+
+        
         return view('solicitacao.show', compact('solicitacao'));
+       
 
 
     }

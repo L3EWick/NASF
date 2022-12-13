@@ -29,6 +29,7 @@
             </thead>
             <tbody>
                @foreach ($solicitacao as $form)
+               @if (Auth::user()->id == $form->usuario_id )
                <tr>
                  <td>{{$form->unidade}}</td>
                  <td>
@@ -54,6 +55,7 @@
 
                  </td> 
                </tr>
+               @endif
            @endforeach
 
                 
