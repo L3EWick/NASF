@@ -28,6 +28,55 @@
            
             </thead>
             <tbody>
+               @foreach ($solicitacoes as $solicitacao)
+                   <tr>
+                     <td>{{$solicitacao->unidade}}</td>
+                     
+                     <td>@foreach ($solicitacao->categorias as $categoria)
+                        {{$categoria->nome}}
+                        <br>
+                    @endforeach
+                      </td>
+                   <td></td>
+                     <td> <a
+                        id="btn_show"
+                        class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
+                        href="{{action('SolicitacaoController@show', $solicitacao->id)}}"
+                        title="Vizualizar Funcionario">  
+                       <i class="glyphicon glyphicon-eye-open "></i>
+                     </a>
+                     
+                     @if ($solicitacao->enviado == 0)
+                     <a
+                        id="btn_edit"
+                        class="btn btn-warning btn-xs action botao_acao btn_editar" 
+                        href="{{action('SolicitacaoController@edit', $solicitacao->id)}}"
+                        title="Editar Funcionario">  
+                        <i class="glyphicon glyphicon-pencil "></i>
+                     </a>
+   
+                     <a
+                        id="btn_send"                     
+                        class="btn btn-primary btn-xs action botao_acao btn_send" 
+                        href="{{route('send', $solicitacao->id)}}"
+                        title="Editar Funcionario">  
+                        <i class="glyphicon glyphicon-send "></i>
+                     </a>
+                  </td>
+                   </tr>
+                   @endif
+                   @if (Auth::user()->nivel == 'Nasf' )
+                        <a
+                           id="btn_send"                     
+                           class="btn btn-danger btn-xs action botao_acao btn_coment" 
+                           href="{{action('SolicitacoesController@create', $solicitacao->id)}}"
+                           title="Editar Funcionario">  
+                           <i class="glyphicon glyphicon-comment "></i>
+                        </a>
+                   @endif
+               @endforeach
+            </tbody>
+            {{-- <tbody>
                @foreach ($solicitacao as $form)
                @if (Auth::user()->id == $form->usuario_id )
                <tr>
@@ -43,14 +92,70 @@
                  <td> 
               
 
+                  <a
+                     id="btn_show"
+                     class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
+                     href="{{action('SolicitacaoController@show', $form->id)}}"
+                     title="Vizualizar Funcionario">  
+                    <i class="glyphicon glyphicon-eye-open "></i>
+                  </a>
+                  
+                  <a
+                     id="btn_edit"
+                     class="btn btn-warning btn-xs action botao_acao btn_editar" 
+                     href="{{action('SolicitacaoController@edit', $form->id)}}"
+                     title="Editar Funcionario">  
+                     <i class="glyphicon glyphicon-pencil "></i>
+                  </a>
+
+                  <a
+                     id="btn_send"                     
+                     class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
+                     href="{{route('send', $form->id)}}"
+                     title="Editar Funcionario">  
+                     <i class="glyphicon glyphicon-send "></i>
+                  </a>
+
+                 
+
+                 </td> 
+               </tr>
+               @endif
+               @if (Auth::user()->nivel == 'Admin' )
+               <tr>
+                 <td>{{$form->unidade}}</td>
+                 <td>
+                  
+                    @foreach ($form->categorias as $categoria)
+                        {{$categoria->nome}}
+                        <br>
+                    @endforeach
+                 </td>
+
+                 <td> 
+              
+
                  <a
-                    id="btn_vizualiza_usuario"
+                    id="btn_show"
                     class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
                     href="{{action('SolicitacaoController@show', $form->id)}}"
                     title="Vizualizar Funcionario">  
                     <i class="glyphicon glyphicon-eye-open "></i>
                  </a>
-
+                 <a
+                     id="btn_edit"
+                     class="btn btn-warning btn-xs action botao_acao btn_editar" 
+                     href="{{action('SolicitacaoController@edit', $form->id)}}"
+                     title="Editar Funcionario">  
+                     <i class="glyphicon glyphicon-pencil "></i>
+                 </a>
+                 <a
+                     id="btn_send"
+                     class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
+                     href="{{route('send', $form->id)}}"
+                     title="Editar Funcionario">  
+                     <i class="glyphicon glyphicon-send "></i>
+                </a>
                  
 
                  </td> 
@@ -59,7 +164,7 @@
            @endforeach
 
                 
-            </tbody>
+            </tbody> --}}
         </table>
       
        </div>

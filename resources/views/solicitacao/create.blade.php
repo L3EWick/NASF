@@ -58,7 +58,7 @@
                     </div>
                     <div class=" form-group col-md-3 col-sm-3 col-xs-12">
                         <label class="control-label" >Telefone</label>
-                        <input type="text" id="telefone" class="form-control" placeholder="Tel" name="telefone" minlength="4" maxlength="100"
+                        <input type="tel" id="telefone" class="form-control" placeholder="(21)xxxxx-xxxx" name="telefone" minlength="4" maxlength="14"
                        required >	
                     </div>
                     <div class=" form-group col-md-12 col-sm-12 col-xs-12">
@@ -85,6 +85,7 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/vanillaMasker.min.js')}}"></script>
 <script src="{{ asset('js/tom-select.complete.min.js') }}"></script>
 <script type="text/javascript">
     new TomSelect('#categoria_id',{
@@ -96,6 +97,12 @@
     });
 
 
+
+</script>
+<script>
+   
+    VMasker($("#telefone")).maskPattern("(99)99999-9999");
+    
 
 </script>
 

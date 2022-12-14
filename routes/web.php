@@ -13,5 +13,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get ('/', 'HomeController@index')->name('home');
     Route::resource('solicitacao', 	 'SolicitacaoController');
     Route::resource('solicitacoes',  'SolicitacoesController');
+    Route::get('solicitacao/send/{id}', 'SolicitacaoController@send')->name('send');
 
 });

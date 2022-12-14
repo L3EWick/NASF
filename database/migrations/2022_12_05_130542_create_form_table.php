@@ -24,6 +24,7 @@ class CreateFormTable extends Migration
             $table->string('telefone');
             $table->string('mv_solicitacao');
             $table->string('relacao_caso');
+            $table->BigInteger('enviado')->default(0);
             $table->BigInteger('usuario_id');
            
             

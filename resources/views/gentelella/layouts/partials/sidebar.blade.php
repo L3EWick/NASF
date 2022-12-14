@@ -6,29 +6,14 @@
 			</li> 
 			
 
-			{{-- Doctors Only --}}
-			@if (Auth::user()->nivel == 'Medico')
-			<li>
-				<a href="{{ url("/solicitacao")}}"><i class="fa fa-list"></i> Solicitação </a>
-			</li> 
-			@endif
 			
-			{{-- Nasf Only --}}
-			@if (Auth::user()->nivel == 'Nasf')
-			<li>
-				<a href="{{ url("/solicitacoes")}}"><i class="fa fa-list"></i> Solicitações </a>
-			</li> 
-			@endif
-
-			{{-- Admin Only --}}
-			@if (Auth::user()->nivel == 'Admin')
+			
 			<li>
 				<a href="{{ url("/solicitacao")}}"><i class="fa fa-list"></i> Solicitação </a>
 			</li> 
-			<li>
-				<a href="{{ url("/solicitacoes")}}"><i class="fa fa-list"></i> Solicitações </a>
-			</li> 
-			@endif
+			
+			
+			
 			
 			{{--<li>
 				<a href="{{ url("/voluntario") }}">	<i class="fa fa-list">	</i> Voluntátios </a> 

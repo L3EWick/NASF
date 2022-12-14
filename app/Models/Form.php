@@ -19,6 +19,7 @@ class Form extends Model
         'mv_solicitacao',
         'relacao_caso',
         'solicitacao_data',
+        'enviado',
         'usuario_id'
         
     ];
@@ -26,6 +27,10 @@ class Form extends Model
     public function categorias()
     {
         return $this->belongsToMany('App\Models\Categorias', 'form_categorias', 'form_id', 'categorias_id' );
+    }
+    public function comentarios()
+    {
+        return $this->belongsToMany('App\Models\Comentarios', 'comentarios', 'form_id' );
     }
 
 }

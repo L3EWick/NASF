@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             'name' => 'Ismael',
-            'email' => 'ismael.lima@mesquita.rj.gov.br',
-            'nivel' => 'Admin',
+            'email' => 'ismael.limaa@mesquita.rj.gov.br',
+            'nivel' => 'Medico',
             'password' => '$2y$10$eMMXLkP579E/hf8.oSBJRu.yndQDIU0XrjRsY/R9Sr6hxzjToy0gC', //teste123
         ]);
     }
