@@ -12,6 +12,12 @@
 				<a href="{{ url("/solicitacao")}}"><i class="fa fa-list"></i> Solicitação </a>
 			</li> 
 			
+			@if (Auth::user()->nivel == "Admin")
+				
+				<li>
+					<a href="{{url("/user")}}"><i class="fas fa-user-shield"></i> Usuarios </a>
+				</li>
+			@endif
 			
 			
 			

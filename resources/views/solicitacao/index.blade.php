@@ -6,8 +6,10 @@
     <div class="x_title">
        <h2>Solicitações</h2>
        <ul class="nav navbar-right panel_toolbox">
+         @if (Auth::user()->nivel == 'Medico' )
           <a href="{{url('solicitacao/create')}}" class="btn-circulo btn  btn-success btn-md  pull-right " data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Nova Sala"> Nova Solicitação </a>
-      </ul>
+         @endif
+         </ul>
       <div class="clearfix"></div>
     </div>
     <div class="x_panel">
@@ -20,7 +22,7 @@
                 <tr>
                     <th>Unidade</th>
                     <th>Categoria</th>
-                    <th></th>                   
+                    <th>Data de Solicitacao</th>                   
                     <th></th>
                     {{-- <th>Foto</th> --}}
   
@@ -37,12 +39,14 @@
                         <br>
                     @endforeach
                       </td>
-                   <td></td>
+                   <td>
+                     {{ date('d-m-y', strtotime($solicitacao->data_enviado)) }}
+                   </td>
                      <td> <a
                         id="btn_show"
                         class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
                         href="{{action('SolicitacaoController@show', $solicitacao->id)}}"
-                        title="Vizualizar Funcionario">  
+                        title="Vizualizar ">  
                        <i class="glyphicon glyphicon-eye-open "></i>
                      </a>
                      
@@ -51,7 +55,7 @@
                         id="btn_edit"
                         class="btn btn-warning btn-xs action botao_acao btn_editar" 
                         href="{{action('SolicitacaoController@edit', $solicitacao->id)}}"
-                        title="Editar Funcionario">  
+                        title="Editar ">  
                         <i class="glyphicon glyphicon-pencil "></i>
                      </a>
    
@@ -59,20 +63,22 @@
                         id="btn_send"                     
                         class="btn btn-primary btn-xs action botao_acao btn_send" 
                         href="{{route('send', $solicitacao->id)}}"
-                        title="Editar Funcionario">  
+                        title="Enviar">  
                         <i class="glyphicon glyphicon-send "></i>
                      </a>
                   </td>
                    </tr>
                    @endif
                    @if (Auth::user()->nivel == 'Nasf' )
+                      @if ($solicitacao->comentario_enviado == 0)
                         <a
                            id="btn_send"                     
                            class="btn btn-danger btn-xs action botao_acao btn_coment" 
-                           href="{{action('SolicitacoesController@create', $solicitacao->id)}}"
-                           title="Editar Funcionario">  
+                           href="{{route('solcreate', $solicitacao->id)}}"
+                           title="Respoder">  
                            <i class="glyphicon glyphicon-comment "></i>
                         </a>
+                        @endif
                    @endif
                @endforeach
             </tbody>

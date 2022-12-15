@@ -13,6 +13,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get ('/', 'HomeController@index')->name('home');
     Route::resource('solicitacao', 	 'SolicitacaoController');
     Route::resource('solicitacoes',  'SolicitacoesController');
+    
     Route::get('solicitacao/send/{id}', 'SolicitacaoController@send')->name('send');
-
+    Route::get('solicitacoes/solcreate/{id}', 'SolicitacoesController@solcreate')->name('solcreate');
+    Route::resource('user', 'UserController');
+    
+    
+    //Senha
+    Route::get ('/alterasenha',					'UserController@AlteraSenha');
+	Route::post('/salvasenha',   				'UserController@SalvarSenha');
+	Route::post('/enviarsenhausuario',			'UserController@EnviarSenhaUsuario');
+	Route::post('/zerarsenhausuario',   		'UserController@ZerarSenhaUsuario');
 });

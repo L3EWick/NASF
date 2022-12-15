@@ -4,23 +4,57 @@
 
 <div class="x_panel modal-content">
 	<div class="x-title">
+		<h2>Conduta Conjunta, após avaliação compartilhada:</h2>
+	</div>
+    
+    <form action="{{action('SolicitacoesController@update', $solicitacao->id)}}" method="POST" >
+        {{ csrf_field() }}
+        @method('PUT')
+        
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label class="form-label fw-normal" for="comentario">Conduta conjunta, após avaliação compartilhada:
+                </label>   
+                <textarea class="form-control" id="comentario" rows="3" required name="comentario"></textarea>
+            </div>
+
+            <div class="form-group col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" for="ts">Avaliação:</label>
+                <select id="avaliacao" name="avaliacao"  class="form-control" required>
+                    <option value="" selected> Escolha uma opção</option>
+                    <option>Retono programado para o NASF</option>
+                    <option>Alta de Episódio, seguir acompanhado pela ESF</option>
+                    <option>Seguimento de atendimento em Grupo</option>
+                    <option>Indicação de atenção ambulatorial especializada</option>
+                    <option>Compartilhamento com a Rede Intersetoria</option>
+                    <option>Outros - descreva</option>
+                </select>
+            </div>
+            <div class=" form-group col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" >Outros:</label>
+                <input type="text" id="outros" class="form-control"   name="outros">	
+            </div>
+            <div class="card-footer text-center">
+                <button type="update" id="btn_salvar" class="btn btn-primary" >Salvar</button>
+            </div>
+        </div>	
+        
+    </form>
+<div class="x_panel modal-content">
+	<div class="x-title">
 		<h2>Solicitação</h2>
 	</div>
 
-
-    
-   
-                    
-    <div class="row">
-		<div class=" form-group col-md-12 col-sm-12 col-xs-12">
-			<label class="control-label" >Categorias:</label>
-			<select name="categorias_id[]" id="categorias_id" disabled multiple class="form-control">
-				@foreach ($solicitacao->categorias as $categoria)
-					<option value="{{$categoria->id}}" selected>{{$categoria->nome}}</option> 
-				@endforeach
-			</select>
-		</div>
-	</div>   
+            
+        <div class="row">
+            <div class=" form-group col-md-12 col-sm-12 col-xs-12">
+                <label class="control-label" >Categorias:</label>
+                <select name="categorias_id[]" id="categorias_id" disabled multiple class="form-control">
+                    @foreach ($solicitacao->categorias as $categoria)
+                        <option value="{{$categoria->id}}" selected>{{$categoria->nome}}</option> 
+                    @endforeach
+                </select>
+            </div>
+        </div>   
     
         <div class=" form-group col-md-4 col-sm-4 col-xs-4">
             <label class="control-label" >Unidade:</label>
@@ -69,11 +103,6 @@
    
 	
 	
-</div>	
-<div class="x_panel modal-content">
-	<div class="x-title">
-		<h2>Conduta Conjunta, após avaliação compartilhada:</h2>
-	</div>
 </div>	
 
 @endsection

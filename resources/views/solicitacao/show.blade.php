@@ -20,7 +20,9 @@
 				@endforeach
 			</select>
 		</div>
+        
 	</div>   
+    
     
         <div class=" form-group col-md-4 col-sm-4 col-xs-4">
             <label class="control-label" >Unidade:</label>
@@ -65,8 +67,20 @@
                 <label class="form-label fw-normal" for="nomeCompleto">Breve relato do caso:</label>   
                 <textarea class="form-control" id="relato" rows="3" disabled  name="relacao_caso">{{$solicitacao->relacao_caso}}</textarea>
         </div>
+
+
+        <div class=" form-group col-md-6 col-sm-6 col-xs-12">
+            <label class="control-label" >Profissional Solicitante :</label>
+            <input type="text" id="prof_sol" class="form-control" disabled value="{{$solicitacao->prof_sol}}" name="prof_sol" minlength="4" maxlength="100"
+           required >	
+        </div>
+
+        <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+            <label class="control-label" for="nascimento">Data da Solicitação:</label>
+            <input required class="form-control datepicker" name="data_enviado" id="data_enviado" disabled type="date" value="{{$solicitacao->data_enviado}}">
+        </div>
     
-   
+        
 	
 	
 </div>	
@@ -74,6 +88,34 @@
 	<div class="x-title">
 		<h2>Conduta Conjunta, após avaliação compartilhada:</h2>
 	</div>
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <label class="form-label fw-normal" disabled for="comentario">Conduta conjunta, após avaliação compartilhada:
+        </label>   
+        <textarea class="form-control" id="comentario" disabled rows="3" required name="comentario">{{$solicitacao->comentario}}</textarea>
+    </div>
+
+    <div class="form-group col-md-12 col-sm-12 col-xs-12">
+        <label class="control-label" for="ts">Avaliação:</label>
+        <select id="avaliacao" name="avaliacao" disabled class="form-control" required>
+            <option value="{{$solicitacao->avalicao}}" selected>{{$solicitacao->avaliacao}}</option>             
+        </select>
+    </div>
+    <div class=" form-group col-md-12 col-sm-12 col-xs-12">
+        <label class="control-label" >Outros:</label>
+        <input type="text" id="outros" disabled class="form-control" value="{{$solicitacao->outros}}"   name="outros">	
+
+    </div>
+    <div class=" form-group col-md-6 col-sm-6 col-xs-12">
+        <label class="control-label" >Profissional Solicitante :</label>
+        <input type="text" id="prof_sol" class="form-control" disabled value="{{$solicitacao->nasf_nome}}" name="prof_sol" minlength="4" maxlength="100"
+       required >	
+    </div>
+    <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+        <label class="control-label" for="nascimento">Data de retoro:</label>
+        <input required class="form-control datepicker" name="data_enviado" id="data_enviado" disabled type="date" value="{{$solicitacao->data_coment}}">
+    </div>
+    
+</div>	
 </div>	
 
 @endsection

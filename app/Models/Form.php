@@ -13,6 +13,7 @@ class Form extends Model
         'equipe',
         'acs',
         'usuario',
+        'prof_sol',
         'dn',
         'endereco',
         'telefone',
@@ -20,7 +21,15 @@ class Form extends Model
         'relacao_caso',
         'solicitacao_data',
         'enviado',
-        'usuario_id'
+        'data_enviado',
+        'usuario_id',
+        'comentario',
+        'avaliacao',
+        'outros',
+        'nasf_id',
+        'nasf_nome',
+        'comentario_enviado',
+        'data_coment'
         
     ];
 

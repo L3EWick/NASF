@@ -38,6 +38,7 @@ class SolicitacaoController extends Controller
         $form = new Form;
         
         $form->usuario_id         = Auth::user()->id;
+        $form->prof_sol         = Auth::user()->name;
         $form->unidade         = $request->unidade;
         $form->equipe          = $request->equipe;
         $form->acs             = $request->acs;
@@ -47,6 +48,7 @@ class SolicitacaoController extends Controller
         $form->telefone        = $request->telefone;
         $form->mv_solicitacao  = $request->mv_solicitacao;
         $form->relacao_caso    = $request->relacao_caso;
+        
         
         $form->save();
 
@@ -150,6 +152,7 @@ class SolicitacaoController extends Controller
         $send = Form::find($id);
 
         $send->enviado = '1';
+        $send->data_enviado    = date('Y/m/d');
 
         $send->save();
         
