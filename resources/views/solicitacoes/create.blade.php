@@ -22,18 +22,20 @@
                 <select id="avaliacao" name="avaliacao"  class="form-control" required>
                     <option value="" selected> Escolha uma opção</option>
                     <option>Retono programado para o NASF</option>
-                    <option>Alta de Episódio, seguir acompanhado pela ESF</option>
-                    <option>Seguimento de atendimento em Grupo</option>
+                    <option>Alta de episódio, seguir acompanhado pela ESF</option>
+                    <option>Seguimento de atendimento em grupo</option>
                     <option>Indicação de atenção ambulatorial especializada</option>
-                    <option>Compartilhamento com a Rede Intersetoria</option>
-                    <option>Outros - descreva</option>
+                    <option>Compartilhamento com a rede intersetoria</option>
+                    <option>Outros - Descreva</option>
                 </select>
             </div>
-            <div class=" form-group col-md-12 col-sm-12 col-xs-12">
+            
+
+            <div id="outros" class=" form-group col-md-12 col-sm-12 col-xs-12" style="display: none;">
                 <label class="control-label" >Outros:</label>
-                <input type="text" id="outros" class="form-control"   name="outros">	
+                <input type="text" id="outro" class="form-control"   name="outros">	
             </div>
-            <div class="card-footer text-center">
+            <div class="card-footer text-center" >
                 <button type="update" id="btn_salvar" class="btn btn-primary" >Salvar</button>
             </div>
         </div>	
@@ -119,5 +121,14 @@
 	});
 
 	
+</script>
+
+<script>
+    const textareaEle = document.querySelector('#outros');
+
+document.querySelector('select').addEventListener('change', function() {
+  textareaEle.style.display = (this.value == 'Outros - Descreva') ? 'block' : 'none';
+});
+
 </script>
 @endpush

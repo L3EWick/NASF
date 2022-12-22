@@ -29,16 +29,20 @@
             </div>
         </div>   
         
-            <div class=" form-group col-md-4 col-sm-4 col-xs-4">
-                <label class="control-label" >Unidade:</label>
-                <input type="text" id="unidade" class="form-control"  value="{{$solicitacao->unidade}}" name="unidade" minlength="4" maxlength="100"
-            required >	
-            </div>
-            <div class=" form-group col-md-4 col-sm-4 col-xs-4">
-                <label class="control-label" >Equipe:</label>
-                <input type="text" id="equipe" class="form-control"  value="{{$solicitacao->equipe}}" name="equipe" minlength="4" maxlength="100"
-            required >	
-            </div>
+        <div class=" form-group col-md-4 col-sm-4 col-xs-4">
+            <label class="control-label" >Unidade</label>
+            <select name="unidade" id="estado" onchange="buscaCidades(this.value)" class="form-control">
+                <option selected value="{{$solicitacao->unidade}}">{{$solicitacao->unidade}}</option>
+                <option value="Clínica da Família Banco de Areia">Clínica da Família Banco de Areia</option>
+                <option value="Clinica da familia Jucelino">Clinica da familia Jucelino</option>
+            </select>   
+        </div>
+        <div class=" form-group col-md-4 col-sm-4 col-xs-4">
+            <label class="control-label" >Equipe</label>
+            <select name="equipe" id="cidade"class="form-control">
+                <option selected value="{{$solicitacao->equipe}}">{{$solicitacao->equipe}}</option>
+            </select>
+        </div>    
             <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                 <label class="control-label" >ACS:</label>
                 <input type="text" id="acs" class="form-control"  value="{{$solicitacao->acs}}" name="acs" minlength="4" maxlength="100"
@@ -107,4 +111,61 @@
     
 
 </script>
+<script>
+    // ESTE SERIA O CONTEÚDO DO .js
+    var json_cidades = {
+      "estados": [
+        {
+          "sigla": "Clínica da Família Banco de Areia",
+          "nome": "Clínica da Família Banco de Areia",
+          "cidades": [
+            "Selecione Uma Equipe",
+            "aiai",
+            "testandosapor"
+    
+        ]
+        },
+        {
+          "sigla": "Clinica da familia Jucelino",
+          "nome": "Clinica da familia Jucelino",
+          "cidades": [
+            "Selecione Uma Equipe",
+            "aiai",
+            "aiai",
+            "testandosapor"
+    
+          ]
+        }
+      ]
+    };
+    // FIM DO .js
+    
+    function buscaCidades(e){
+       document.querySelector("#cidade").innerHTML = '';
+       var cidade_select = document.querySelector("#cidade");
+    
+       var num_estados = json_cidades.estados.length;
+       var j_index = -1;
+    
+       // aqui eu pego o index do Estado dentro do JSON
+       for(var x=0;x<num_estados;x++){
+          if(json_cidades.estados[x].sigla == e){
+             j_index = x;
+          }
+       }
+    
+       if(j_index != -1){
+      
+          // aqui eu percorro todas as cidades e crio os OPTIONS
+          json_cidades.estados[j_index].cidades.forEach(function(cidade){
+             var cid_opts = document.createElement('option');
+             cid_opts.setAttribute('value',cidade)
+             cid_opts.innerHTML = cidade;
+             cidade_select.appendChild(cid_opts);
+          });
+       }else{
+          document.querySelector("#cidade").innerHTML = '';
+       }
+    }
+    </script>
 @endpush

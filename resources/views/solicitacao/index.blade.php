@@ -22,7 +22,10 @@
                 <tr>
                     <th>Unidade</th>
                     <th>Categoria</th>
-                    <th>Data de Solicitacao</th>                   
+                    <th>Data de Solicitacao</th>       
+                    @if (Auth::user()->nivel == 'Medico' )
+                     <th>Situação</th>            
+                    @endif
                     <th></th>
                     {{-- <th>Foto</th> --}}
   
@@ -40,8 +43,29 @@
                     @endforeach
                       </td>
                    <td>
-                     {{ date('d-m-y', strtotime($solicitacao->data_enviado)) }}
+                     @if ($solicitacao->enviado == 1)
+                     {{ date('d/m/y', strtotime($solicitacao->data_enviado)) }}
+                     @endif
+                   
                    </td>
+                   @if (Auth::user()->nivel == 'Medico' )
+                      <td>
+                        
+                        @if ($solicitacao->comentario_enviado == 1)
+                           
+                             <p style="color: green;">Respondido</p>
+                           
+                        @elseif ($solicitacao->enviado == 1)
+                            
+                              <p style="color: rgb(17, 17, 187);">Aguardando Resposta...</p>
+                        
+                        @else      
+                              <p style="color: grey">Aguardando Envio...</p>
+                        @endif
+                        
+                      </td>
+                   @endif
+                   
                      <td> <a
                         id="btn_show"
                         class="btn btn-primary btn-xs action botao_acao btn_vizualiza" 
