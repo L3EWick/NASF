@@ -31,22 +31,25 @@
         
         <div class=" form-group col-md-4 col-sm-4 col-xs-4">
             <label class="control-label" >Unidade</label>
-            <select name="unidade" id="estado" onchange="buscaCidades(this.value)" class="form-control">
+            <select onchange="getEquipe()" name="unidade" id="unidade" class="form-control" required>
                 <option selected value="{{$solicitacao->unidade}}">{{$solicitacao->unidade}}</option>
-                <option value="Clínica da Família Banco de Areia">Clínica da Família Banco de Areia</option>
-                <option value="Clinica da familia Jucelino">Clinica da familia Jucelino</option>
-            </select>   
+                    @for ($i = 0; $i < count($unidades); $i++)
+                        <option value="{{$unidades[$i]->no_unidade_saude}}">{{$unidades[$i]->no_unidade_saude}}</option>
+                    @endfor
+            </select>
         </div>
         <div class=" form-group col-md-4 col-sm-4 col-xs-4">
             <label class="control-label" >Equipe</label>
-            <select name="equipe" id="cidade"class="form-control">
+            <select onchange="getAcs()" name="equipe" id="equipe"class="form-control" required>
+                {{-- <option value="a">a</option> --}}
                 <option selected value="{{$solicitacao->equipe}}">{{$solicitacao->equipe}}</option>
             </select>
         </div>    
             <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                 <label class="control-label" >ACS:</label>
-                <input type="text" id="acs" class="form-control"  value="{{$solicitacao->acs}}" name="acs" minlength="4" maxlength="100"
-            required >	
+                <select name="acs" id="acs"class="form-control" required>
+                    <option value="{{$solicitacao->acs}}" selected>{{$solicitacao->acs}}</option>
+                </select>	
             </div>
             <div class=" form-group col-md-9 col-sm-9 col-xs-12">
                 <label class="control-label" >Usuário:</label>
@@ -112,60 +115,99 @@
 
 </script>
 <script>
-    // ESTE SERIA O CONTEÚDO DO .js
-    var json_cidades = {
-      "estados": [
-        {
-          "sigla": "Clínica da Família Banco de Areia",
-          "nome": "Clínica da Família Banco de Areia",
-          "cidades": [
-            "Selecione Uma Equipe",
-            "aiai",
-            "testandosapor"
-    
-        ]
-        },
-        {
-          "sigla": "Clinica da familia Jucelino",
-          "nome": "Clinica da familia Jucelino",
-          "cidades": [
-            "Selecione Uma Equipe",
-            "aiai",
-            "aiai",
-            "testandosapor"
-    
-          ]
+
+    const unidadeSelect = document.getElementById('unidade');
+    const equipeSelect = document.getElementById('equipe');
+    const acsSelect = document.getElementById('acs');
+
+    const getEquipe = async () => {
+        if(unidadeSelect.value){
+            unidadeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.innerHTML = "";
+			const loading = document.createElement('option');
+			loading.value = "";
+			loading.innerText = "Carregando...";
+			equipeSelect.append(loading);
+            
+            try {
+                const response = await axios.get('/api/equipes', {
+				    params: {
+						unidade_nome: unidadeSelect.value
+					}
+				});
+
+                const equipes = response.data;
+                equipeSelect.innerHTML = "";
+        
+                const selecione = document.createElement('option');
+				selecione.value = "";
+				selecione.innerText = "Selecione a Equipe";
+				selecione.setAttribute('selected', 'selected');
+				equipeSelect.append(selecione);
+				for (let equipe of equipes) {
+					const newOption = document.createElement('option');
+					newOption.value = equipe.no_equipe;
+					newOption.innerText = equipe.no_equipe;
+					equipeSelect.append(newOption);
+				}
+
+            }catch(error) {
+                console.log(error);
+				unidadeSelect.removeAttribute('disabled');
+				equipeSelect.removeAttribute('disabled');
+            }
+            unidadeSelect.removeAttribute('disabled');
+            equipeSelect.removeAttribute('disabled');
         }
-      ]
-    };
-    // FIM DO .js
-    
-    function buscaCidades(e){
-       document.querySelector("#cidade").innerHTML = '';
-       var cidade_select = document.querySelector("#cidade");
-    
-       var num_estados = json_cidades.estados.length;
-       var j_index = -1;
-    
-       // aqui eu pego o index do Estado dentro do JSON
-       for(var x=0;x<num_estados;x++){
-          if(json_cidades.estados[x].sigla == e){
-             j_index = x;
-          }
-       }
-    
-       if(j_index != -1){
-      
-          // aqui eu percorro todas as cidades e crio os OPTIONS
-          json_cidades.estados[j_index].cidades.forEach(function(cidade){
-             var cid_opts = document.createElement('option');
-             cid_opts.setAttribute('value',cidade)
-             cid_opts.innerHTML = cidade;
-             cidade_select.appendChild(cid_opts);
-          });
-       }else{
-          document.querySelector("#cidade").innerHTML = '';
-       }
     }
-    </script>
+
+    const getAcs = async () => {
+        if(equipeSelect.value){
+            unidadeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.setAttribute('disabled', 'disabled');
+            acsSelect.setAttribute('disabled', 'disabled');
+            acsSelect.innerHTML = "";
+            const loading = document.createElement('option');
+            loading.value = "";
+            loading.innerText = "Carregando...";
+            acsSelect.append(loading);
+
+            try {
+
+                const response = await axios.get('/api/acss', {
+				    params: {
+						equipe_nome: equipeSelect.value
+					}
+				});
+
+                const acss = response.data;
+                acsSelect.innerHTML = "";
+
+                const selecione = document.createElement('option');
+				selecione.value = "";
+				selecione.innerText = "Selecione o ACS";
+				selecione.setAttribute('selected', 'selected');
+				acsSelect.append(selecione);
+				for (let acs of acss) {
+					const newOption = document.createElement('option');
+					newOption.value = acs.no_profissional;
+					newOption.innerText = acs.no_profissional;
+					acsSelect.append(newOption);
+				}
+                
+            } catch (error) {
+                console.log(error);
+				unidadeSelect.removeAttribute('disabled');
+				equipeSelect.removeAttribute('disabled');
+                acsSelect.removeAttribute('disabled');
+            }
+            
+            unidadeSelect.removeAttribute('disabled');
+			equipeSelect.removeAttribute('disabled');
+            acsSelect.removeAttribute('disabled');
+        }
+    }
+
+</script>
 @endpush

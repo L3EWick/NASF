@@ -28,7 +28,7 @@
                    
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >Unidade</label>
-                        <select onchange="getEquipe()" name="unidade" id="unidade" class="form-control">
+                        <select onchange="getEquipe()" name="unidade" id="unidade" class="form-control" required>
                             <option selected value="">Selecione a unidade</option>
                                 @for ($i = 0; $i < count($unidades); $i++)
                                     <option value="{{$unidades[$i]->no_unidade_saude}}">{{$unidades[$i]->no_unidade_saude}}</option>
@@ -44,14 +44,14 @@
                     </div>
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >Equipe</label>
-                        <select name="equipe" id="equipe"class="form-control">
+                        <select onchange="getAcs()" name="equipe" id="equipe"class="form-control" required>
                             {{-- <option value="a">a</option> --}}
                             <option value="" selected>Selecione a unidade para carregar as opções</option>
                         </select>
                     </div>    
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >ACS</label>
-                        <select name="acs" id="acs"class="form-control">
+                        <select name="acs" id="acs"class="form-control" required>
                             {{-- <option value="a">a</option> --}}
                             <option value="" selected>Selecione a equipe para carregar as opções</option>
                         </select>	
@@ -121,7 +121,6 @@
     const acsSelect = document.getElementById('acs');
 
     const getEquipe = async () => {
-
         if(unidadeSelect.value){
             unidadeSelect.setAttribute('disabled', 'disabled');
 			equipeSelect.setAttribute('disabled', 'disabled');
@@ -132,28 +131,82 @@
 			equipeSelect.append(loading);
             
             try {
-                
-                const response = await axios.get('api/equipes', {
+                const response = await axios.get('/api/equipes', {
 				    params: {
-						unidade: unidadeSelect.value
+						unidade_nome: unidadeSelect.value
 					}
 				});
 
                 const equipes = response.data;
-
-                console.log(equipes)
-
-
+                equipeSelect.innerHTML = "";
+        
+                const selecione = document.createElement('option');
+				selecione.value = "";
+				selecione.innerText = "Selecione a Equipe";
+				selecione.setAttribute('selected', 'selected');
+				equipeSelect.append(selecione);
+				for (let equipe of equipes) {
+					const newOption = document.createElement('option');
+					newOption.value = equipe.no_equipe;
+					newOption.innerText = equipe.no_equipe;
+					equipeSelect.append(newOption);
+				}
 
             }catch(error) {
                 console.log(error);
 				unidadeSelect.removeAttribute('disabled');
 				equipeSelect.removeAttribute('disabled');
             }
-
+            unidadeSelect.removeAttribute('disabled');
+            equipeSelect.removeAttribute('disabled');
         }
+    }
 
+    const getAcs = async () => {
+        if(equipeSelect.value){
+            unidadeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.setAttribute('disabled', 'disabled');
+            acsSelect.setAttribute('disabled', 'disabled');
+            acsSelect.innerHTML = "";
+            const loading = document.createElement('option');
+            loading.value = "";
+            loading.innerText = "Carregando...";
+            acsSelect.append(loading);
 
+            try {
+
+                const response = await axios.get('/api/acss', {
+				    params: {
+						equipe_nome: equipeSelect.value
+					}
+				});
+
+                const acss = response.data;
+                acsSelect.innerHTML = "";
+
+                const selecione = document.createElement('option');
+				selecione.value = "";
+				selecione.innerText = "Selecione o ACS";
+				selecione.setAttribute('selected', 'selected');
+				acsSelect.append(selecione);
+				for (let acs of acss) {
+					const newOption = document.createElement('option');
+					newOption.value = acs.no_profissional;
+					newOption.innerText = acs.no_profissional;
+					acsSelect.append(newOption);
+				}
+                
+            } catch (error) {
+                console.log(error);
+				unidadeSelect.removeAttribute('disabled');
+				equipeSelect.removeAttribute('disabled');
+                acsSelect.removeAttribute('disabled');
+            }
+            
+            unidadeSelect.removeAttribute('disabled');
+			equipeSelect.removeAttribute('disabled');
+            acsSelect.removeAttribute('disabled');
+        }
     }
 
 </script>

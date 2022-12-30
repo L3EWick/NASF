@@ -21,7 +21,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     // Route::get('pegaunidadepec', 'SolicitacaoController@pegaUnidadePec');
-    Route::get('api/equipes', 'SolicitacaoController@getEquipes');
+    Route::get('/api/equipes', 'SolicitacaoController@getEquipes');
+    Route::get('/api/acss', 'SolicitacaoController@getAcss');
     
 
     //Senha
