@@ -3,9 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Form;
-use App\Models\FormCat;
+use Illuminate\Support\Facades\DB;
+
+use App\Models\tb_cbo;
+use App\Models\tb_prof;
+use App\Models\tb_equipe;
+use App\Models\tb_lotacao;
+use App\Models\tb_unidade_saude;
+
 use App\Models\Categorias;
+use App\Models\FormCat;
+use App\Models\Form;
 use Auth;
 
 class SolicitacaoController extends Controller
@@ -28,7 +36,11 @@ class SolicitacaoController extends Controller
     public function create()
     {
         $categorias = Categorias::all();
-        return view('solicitacao.create',compact('categorias'));
+        
+        $unidades = DB::connection('pgsql')->table('tb_unidade_saude')->select('no_unidade_saude')->where('no_unidade_saude','like','%Clinica da Familia%')->get();
+        // dd($unidades[0]);
+        // dd($unidades[0]->no_unidade_saude);
+        return view('solicitacao.create',compact('categorias','unidades'));
     }
     
     public function store (Request $request)
@@ -67,21 +79,6 @@ class SolicitacaoController extends Controller
                 $categoria->save();
             }
         }
-        
-
-        // if($request->categoria_id != null){
-        //     foreach($request->categoria_id as $categoria)
-        //     {
-        //         $categoria = new FormCat;
-                
-        //         $categoria->categorias_id = '1';
-        //         // dd($categoria);
-               
-        //         $categoria->form_id       = $form->id;
-        //         $categoria->save();
-        //     }
-        // }
-
 
         return redirect('/solicitacao');
     }
@@ -99,6 +96,7 @@ class SolicitacaoController extends Controller
     }
 
     public function edit($id){
+        
         $categorias = Categorias::all();
 
         $solicitacao = Form::with('categorias')->find($id);
@@ -108,7 +106,6 @@ class SolicitacaoController extends Controller
              return view('solicitacao.edit', compact('solicitacao','categorias'));
         }
         
-       
     }
     public function update(Request $request, $id){
     
@@ -158,4 +155,20 @@ class SolicitacaoController extends Controller
         
         return redirect()->route('solicitacao.index');
     }
+
+
+    public function getEquipes($unidade)
+    {
+
+        $equipes = DB::connection('pgsql')->table('tb_equipe')->select('no_equipe')->where('co_unidade_saude','=',2);
+        // dd($unidade);
+        // $unidades = DB::connection('pgsql')->table('tb_unidade_saude')->select('no_unidade_saude')->where('no_unidade_saude','like','%Clinica da Familia%')->get();
+        
+        return response()->json(
+            $equipes,
+            200
+        );
+
+    }
+
 }

@@ -123,10 +123,6 @@
 
 			window.Laravel = {!! json_encode([
 				'csrf' 		=> csrf_token(),
-				'pusher'	=> [
-					'key' 		=> config('broadcasting.connections.pusher.key'),
-					'cluster' 	=> config('broadcasting.connections.pusher.options.cluster'),
-				],
 				'user' => auth()->check() ? auth()->user()->id : '',  
 
 			]) !!}

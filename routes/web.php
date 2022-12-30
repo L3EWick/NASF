@@ -18,7 +18,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('solicitacoes/solcreate/{id}', 'SolicitacoesController@solcreate')->name('solcreate');
     Route::resource('user', 'UserController');
     
+
+
+    // Route::get('pegaunidadepec', 'SolicitacaoController@pegaUnidadePec');
+    Route::get('api/equipes', 'SolicitacaoController@getEquipes');
     
+
     //Senha
     Route::get ('/alterasenha',					'UserController@AlteraSenha');
 	Route::post('/salvasenha',   				'UserController@SalvarSenha');

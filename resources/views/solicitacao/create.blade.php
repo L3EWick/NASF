@@ -2,7 +2,6 @@
 @section('content')
 
 <link href="{{ asset('css/tom-select.bootstrap5.min.css') }}" rel="stylesheet" />
-<link rel="stylesheet" href="{{ asset('css/filepreview.css') }}">
 
 <div class="x_panel modal-content">
     <div class="x_title">
@@ -29,29 +28,41 @@
                    
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >Unidade</label>
-                        <select name="unidade" id="estado" onchange="buscaCidades(this.value)" class="form-control">
+                        <select onchange="getEquipe()" name="unidade" id="unidade" class="form-control">
+                            <option selected value="">Selecione a unidade</option>
+                                @for ($i = 0; $i < count($unidades); $i++)
+                                    <option value="{{$unidades[$i]->no_unidade_saude}}">{{$unidades[$i]->no_unidade_saude}}</option>
+                                @endfor
+
+                        </select>
+                            
+                        {{-- <select name="unidade" id="estado" onchange="buscaCidades(this.value)" class="form-control">
                             <option selected value="">Selecione a unidade</option>
                             <option value="Clínica da Família Banco de Areia">Clínica da Família Banco de Areia</option>
                             <option value="Clinica da familia Jucelino">Clinica da familia Jucelino</option>
-                        </select>   
+                        </select>    --}}
                     </div>
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >Equipe</label>
-                        <select name="equipe" id="cidade"class="form-control">
+                        <select name="equipe" id="equipe"class="form-control">
+                            {{-- <option value="a">a</option> --}}
+                            <option value="" selected>Selecione a unidade para carregar as opções</option>
                         </select>
                     </div>    
                     <div class=" form-group col-md-4 col-sm-4 col-xs-4">
                         <label class="control-label" >ACS</label>
-                        <input type="text" id="acs" class="form-control" placeholder="ACS" name="acs" minlength="4" maxlength="100"
-                       required >	
+                        <select name="acs" id="acs"class="form-control">
+                            {{-- <option value="a">a</option> --}}
+                            <option value="" selected>Selecione a equipe para carregar as opções</option>
+                        </select>	
                     </div>
                     <div class=" form-group col-md-9 col-sm-9 col-xs-12">
-                        <label class="control-label" >Paciente</label>
+                        <label class="control-label" >Nome do Paciente</label>
                         <input type="text" id="usuario" class="form-control" placeholder="Paciente" name="usuario" minlength="4" maxlength="100"
                        required >	
                     </div>
                     <div class="form-group col-md-3 col-sm-3 col-xs-12 ">
-                        <label class="control-label" for="nascimento">D.N</label>
+                        <label class="control-label" for="nascimento">Data de Nascimento</label>
                         <input required class="form-control datepicker" name="dn" id="dn" type="date" placeholder="dd/mm/aaaa" >
                     </div>
                     <div class=" form-group col-md-9 col-sm-9 col-xs-12">
@@ -90,6 +101,7 @@
 @push('scripts')
 <script src="{{ asset('js/vanillaMasker.min.js')}}"></script>
 <script src="{{ asset('js/tom-select.complete.min.js') }}"></script>
+
 <script type="text/javascript">
     new TomSelect('#categoria_id',{
         maxOptions: 150,
@@ -103,61 +115,47 @@
 
 </script>
 <script>
-// ESTE SERIA O CONTEÚDO DO .js
-var json_cidades = {
-  "estados": [
-    {
-      "sigla": "Clínica da Família Banco de Areia",
-      "nome": "Clínica da Família Banco de Areia",
-      "cidades": [
-        "Selecione Uma Equipe",
-        "aiai",
-        "testandosapor"
 
-    ]
-    },
-    {
-      "sigla": "Clinica da familia Jucelino",
-      "nome": "Clinica da familia Jucelino",
-      "cidades": [
-        "Selecione Uma Equipe",
-        "aiai",
-        "aiai",
-        "testandosapor"
+    const unidadeSelect = document.getElementById('unidade');
+    const equipeSelect = document.getElementById('equipe');
+    const acsSelect = document.getElementById('acs');
 
-      ]
+    const getEquipe = async () => {
+
+        if(unidadeSelect.value){
+            unidadeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.setAttribute('disabled', 'disabled');
+			equipeSelect.innerHTML = "";
+			const loading = document.createElement('option');
+			loading.value = "";
+			loading.innerText = "Carregando...";
+			equipeSelect.append(loading);
+            
+            try {
+                
+                const response = await axios.get('api/equipes', {
+				    params: {
+						unidade: unidadeSelect.value
+					}
+				});
+
+                const equipes = response.data;
+
+                console.log(equipes)
+
+
+
+            }catch(error) {
+                console.log(error);
+				unidadeSelect.removeAttribute('disabled');
+				equipeSelect.removeAttribute('disabled');
+            }
+
+        }
+
+
     }
-  ]
-};
-// FIM DO .js
 
-function buscaCidades(e){
-   document.querySelector("#cidade").innerHTML = '';
-   var cidade_select = document.querySelector("#cidade");
-
-   var num_estados = json_cidades.estados.length;
-   var j_index = -1;
-
-   // aqui eu pego o index do Estado dentro do JSON
-   for(var x=0;x<num_estados;x++){
-      if(json_cidades.estados[x].sigla == e){
-         j_index = x;
-      }
-   }
-
-   if(j_index != -1){
-  
-      // aqui eu percorro todas as cidades e crio os OPTIONS
-      json_cidades.estados[j_index].cidades.forEach(function(cidade){
-         var cid_opts = document.createElement('option');
-         cid_opts.setAttribute('value',cidade)
-         cid_opts.innerHTML = cidade;
-         cidade_select.appendChild(cid_opts);
-      });
-   }else{
-      document.querySelector("#cidade").innerHTML = '';
-   }
-}
 </script>
 <script>
    
